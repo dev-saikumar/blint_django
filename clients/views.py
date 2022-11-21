@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login as user_login
+from .models import Outlets,Products,Orders
+from django.contrib.auth import authenticate,logout as user_logout,login as user_login
 # Create your views here.
 
 
@@ -17,6 +18,9 @@ def login(req):
         return render(req,'home.html')
     else:
         return render(req,'login.html')
+def logout(req):
+    user_logout(req)
+    return redirect('homepage')
 
 def register(req):
 
@@ -36,8 +40,15 @@ def register(req):
         return render(req,'register.html')
 
 def homepage(req):
+
     if(req.user.is_authenticated):
+        if(User.is_staff):
+            return redirect('vendor_homepage')
+        
+        
         return render(req,'home.html')
     else:
         return redirect('login')
 
+def vendor_homepage(req):
+    return render(req,'vendor_homepage.html')
