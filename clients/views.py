@@ -52,3 +52,5 @@ def homepage(req):
 
 def vendor_homepage(req):
     return render(req,'vendor_homepage.html')
+def home(request):
+    return render(request,'home.html')
